@@ -14,6 +14,8 @@ setup(
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     author="Fabián Abarca and José Andrés Rodríguez",
+    author_email="fabian.abarca@ucr.ac.cr",
+    url="https://geo2shapes.readthedocs.io/",
     license="MIT",
     install_requires=[
         "pandas",
