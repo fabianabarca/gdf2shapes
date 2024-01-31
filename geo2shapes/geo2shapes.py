@@ -3,7 +3,7 @@ import geopandas as gpd
 from shapely.geometry import Point
 
 
-def convert(a, b):
+def convert():
     """Converts a GeoJSON file containing LineString features to a CSV with shape information.
 
     Parameters
