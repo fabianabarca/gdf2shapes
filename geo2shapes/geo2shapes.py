@@ -82,12 +82,12 @@ def validate(imput_file):
 
     Parameters
     ----------
-    a : str
+    imput_file : str
         (¿Qué entra aquí: WKT, archivo, .geojson?)
 
     Returns
     -------
-    b : str
+    output_file : str
         Path to the output CSV file.
 
     """
