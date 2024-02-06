@@ -76,13 +76,13 @@ def convert(gdf):
     return df
 
 
-def validate(imput_file):
+def validate(gdf):
     """Validates a GeoJSON file containing LineString features.
 
     Parameters
     ----------
-    imput_file : str
-        (¿Qué entra aquí: WKT, archivo, .geojson?)
+    gdf : GeoDataFrame
+        Contains the LineString features to be validated.
 
     Returns
     -------
@@ -90,16 +90,17 @@ def validate(imput_file):
         Path to the output CSV file.
 
     """
-    # Load Shape file
-    gdf = gpd.read_file(imput_file)
 
-    # Specify the Bounding box
+    # Find the bounding box of the GeoDataFrame
+    bbox = gdf.geometry.total_bounds
+
+    # Specify the bounding box
     bounding_box = (
-        9.947588,
-        9.933921,
-        -84.040216,
-        -84.053926,
-    )  # Bounding box of UCR, Costa Rica.
+        bbox[3],
+        bbox[1],
+        bbox[2],
+        bbox[0],
+    )
 
     # Obtain the road network graph within the bounding box
     G = ox.graph_from_bbox(
@@ -107,7 +108,7 @@ def validate(imput_file):
         bounding_box[1],
         bounding_box[2],
         bounding_box[3],
-        network_type="all",
+        network_type="drive",
     )
 
     # Initialize the results dictionary
@@ -121,12 +122,13 @@ def validate(imput_file):
         points = linestring.representative_point()
 
         # Validate each segment of the LineString
-        for i in range(len(points) - 1):
+        for i, _ in enumerate(points):
             # Get the current segment
             segment = LineString([points[i], points[i + 1]])
 
             # Validate if the segment intersects any road in the graph
             for edge in ox.graph_to_gdfs(G, nodes=False, edges=True).geometry:
+                # Possibly within() is a better method
                 if segment.intersects(edge):
                     break
             else:
@@ -142,4 +144,5 @@ def validate(imput_file):
         for idx, valid in results.items():
             print(f"LineString {idx} es válido: {valid}")
 
-    return show_results
+    # return show_results
+    return results
