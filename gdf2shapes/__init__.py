@@ -1,4 +1,4 @@
-from .geo2shapes import (
+from .gdf2shapes import (
     convert,
     validate,
 )

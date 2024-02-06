@@ -20,9 +20,9 @@ def convert(gdf):
     Example
     -------
     >>> import geopandas as gpd
-    >>> import geo2shapes
+    >>> import gdf2shapes
     >>> gdf = gpd.read_file("my_file.geojson")
-    >>> df = geo2shapes.convert(gdf)   
+    >>> df = gdf2shapes.convert(gdf)   
     """
 
     # Filter for features of type LineString
