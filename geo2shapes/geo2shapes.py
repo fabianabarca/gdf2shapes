@@ -4,22 +4,26 @@ import osmnx as ox
 from shapely.geometry import LineString, Point
 
 
-def convert(input_file):
+def convert(gdf):
     """Converts a GeoJSON file containing LineString features to a CSV with shape information.
 
     Parameters
     ----------
-    a : str
-        (¿Qué entra aquí: WKT, archivo, .geojson?)
+    gdf : GeoDataFrame
+        Contains the LineString features to be converted.
 
     Returns
     -------
-    b : str
-        Path to the output CSV file.
+    df : DataFrame
+        Contains the shape information in a format suitable for GTFS.
 
+    Example
+    -------
+    >>> import geopandas as gpd
+    >>> import geo2shapes
+    >>> gdf = gpd.read_file("my_file.geojson")
+    >>> df = geo2shapes.convert(gdf)   
     """
-    # Load Shape file
-    gdf = gpd.read_file(input_file)
 
     # Filter for features of type LineString
     gdf = gdf[gdf["geometry"].type == "LineString"]
@@ -69,12 +73,7 @@ def convert(input_file):
         }
     )
 
-    # Create a GeoDataFrame from the DataFrame
-    result_gdf = gpd.GeoDataFrame(df)
-
-    # Save the GeoDataFrame as CSV
-    # result_gdf.to_csv(output_file, index=False)
-    return result_gdf
+    return df
 
 
 def validate(imput_file):
